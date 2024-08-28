@@ -1,1 +1,1 @@
-# starexploration-st
+# starexploration-st## Installation```stMetacello new	repository: 'github://psvensson/starexploration-st:main/src';	baseline: 'StarexplorationSt';	load```## Load Lepiter				After installing with Metacello, you will be able to execute```#BaselineOfStarexplorationSt asClass loadLepiter```
