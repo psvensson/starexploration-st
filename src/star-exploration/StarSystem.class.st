@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'stars',
 		'planets',
-		'root'
+		'root',
+		'builder'
 	],
 	#category : #'star-exploration'
 }
@@ -18,6 +19,28 @@ StarSystem >> addPlanet: aPlanet named: aName [
 StarSystem >> addStar: aStar named: aName [
 	stars at: aName put: aStar.
 	aStar root: root
+]
+
+{ #category : #accessing }
+StarSystem >> drawOrbitsOn: aCanvas using: orbitData [
+    | tilt ellipse |
+    
+    orbitData do: [:orbit |
+        tilt := orbit tilt * (Float pi / 180).
+        
+        "Create the ellipse geometry with the extent and rotation"
+        ellipse := BlEllipseGeometry new asElement
+            relocate: (self getCenter + (orbit offsetX @  orbit offsetY));
+            extent: (orbit a * 2) @ (orbit b * 2).
+        builder target: ellipse; rotateBy: tilt; apply.    
+        
+        "Set the appearance and add the ellipse to the canvas"
+        ellipse
+            background: Color transparent;
+            border: (BlBorder paint: Color orange width: 2).
+        
+        aCanvas addChild: ellipse.
+    ].
 ]
 
 { #category : #accessing }

@@ -1,13 +1,14 @@
 Class {
 	#name : #Planet,
-	#superclass : #Object,
+	#superclass : #CelestialBody,
 	#instVars : [
 		'a',
 		'b',
 		'size',
 		'angle',
 		'tilt',
-		'color'
+		'color',
+		'offsetX'
 	],
 	#category : #'star-exploration'
 }
@@ -30,6 +31,17 @@ Planet >> color [
 { #category : #accessing }
 Planet >> color: anObject [
 	color := anObject
+]
+
+{ #category : #accessing }
+Planet >> initialize [
+	a := 100.
+	b := 60.
+	size := 10.
+	tilt := 10.
+	offsetX := 0.
+	offsetX := 0.
+	color := Color orange
 ]
 
 { #category : #accessing }

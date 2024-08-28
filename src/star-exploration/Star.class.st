@@ -17,30 +17,6 @@ Class {
 }
 
 { #category : #accessing }
-Star >> drawOrbitsOn: aCanvas using: orbitData [
-    | tilt ellipse |
-    
-    orbitData do: [:orbit |
-        tilt := orbit tilt * (Float pi / 180).
-        
-        "Create the ellipse geometry with the extent and rotation"
-        ellipse := BlEllipseGeometry new asElement
-            relocate: (self getCenter + (orbit offsetX @  orbit offsetY));
-            extent: (orbit a * 2) @ (orbit b * 2).
-        builder target: ellipse; rotateBy: tilt; apply.    
-        
-        "Set the appearance and add the ellipse to the canvas"
-        ellipse
-            background: Color transparent;
-            border: (BlBorder paint: Color orange width: 2).
-        
-        aCanvas addChild: ellipse.
-    ].
-
-
-]
-
-{ #category : #accessing }
 Star >> getCenter [
 	^ (root bounds extent x) @ (root bounds extent y)
 ]
@@ -55,7 +31,9 @@ Star >> initialize [
     radius := 30.
     
     "Create and configure the circle (star) shape"
-    starElement := (BlEllipseGeometry new extent: 30@30 ) asElement border: (BlBorder paint: Color orange width: 2).
+    starElement := (BlEllipseGeometry new extent: 30@30 ) asElement 
+    	border: (BlBorder paint: Color orange width: 2);
+    	background: Color transparent.
 
 ]
 
