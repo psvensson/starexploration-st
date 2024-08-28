@@ -78,3 +78,14 @@ StarSystem >> initialize [
 	root := blSpace root.
 	blSpace show.
 ]
+
+{ #category : #accessing }
+StarSystem >> sampleStarSystem [
+	<gtExample>
+	<description: 'Creating a small StarSystem from scratch to display in its own window '>
+	| system star |
+	system := StarSystem new.
+	star := Star new.
+	system addStar: star named: 'foostar'.
+	^ system
+]
