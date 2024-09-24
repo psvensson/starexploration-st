@@ -10,8 +10,7 @@ Class {
 		'spectralType',
 		'age',
 		'starElement',
-		'test',
-		'builder'
+		'test'
 	],
 	#category : #'star-exploration'
 }
@@ -22,16 +21,11 @@ Star >> getCenter [
 ]
 
 { #category : #accessing }
-Star >> initialize [
-	| radius  |
-        
+Star >> initialize [       
     builder := BlTransformationBuilder new.    
-    
-    "Define the radius of the star"
-    radius := 30.
-    
+     size := 30.  
     "Create and configure the circle (star) shape"
-    starElement := (BlEllipseGeometry new extent: 30@30 ) asElement 
+    starElement := (BlEllipseGeometry new extent: self size@ self size ) asElement 
     	border: (BlBorder paint: Color orange width: 2);
     	background: Color transparent.
 

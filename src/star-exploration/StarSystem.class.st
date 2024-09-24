@@ -22,16 +22,16 @@ StarSystem >> addStar: aStar named: aName [
 ]
 
 { #category : #accessing }
-StarSystem >> drawOrbitsOn: aCanvas using: orbitData [
+StarSystem >> drawOrbitsOn: aCanvas using: bodyData [
     | tilt ellipse |
     
-    orbitData do: [:orbit |
-        tilt := orbit tilt * (Float pi / 180).
+    bodyData do: [:body |
+        tilt := body tilt * (Float pi / 180).
         
         "Create the ellipse geometry with the extent and rotation"
         ellipse := BlEllipseGeometry new asElement
-            relocate: (self getCenter + (orbit offsetX @  orbit offsetY));
-            extent: (orbit a * 2) @ (orbit b * 2).
+            relocate: (self getCenter + (body offsetX @  body offsetY));
+            extent: (body a * 2) @ (body b * 2).
         builder target: ellipse; rotateBy: tilt; apply.    
         
         "Set the appearance and add the ellipse to the canvas"
