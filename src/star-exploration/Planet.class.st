@@ -20,6 +20,9 @@ Planet >> color: anObject [
 { #category : #accessing }
 Planet >> initialize [
 	super initialize.
-	
-	color := Color orange
+     size := 5.  
+    "Create and configure the circle (star) shape"
+    bodyElement := (BlEllipseGeometry new extent: self size@ self size ) asElement 
+    	border: (BlBorder paint: Color black width: 2);
+    	background: Color transparent.
 ]

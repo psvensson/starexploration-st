@@ -10,7 +10,9 @@ Class {
 		'offsetX',
 		'offsetY',
 		'size',
-		'builder'
+		'builder',
+		'bodyElement',
+		'bodies'
 	],
 	#category : #'star-exploration'
 }
@@ -18,6 +20,11 @@ Class {
 { #category : #accessing }
 CelestialBody >> a [
  ^a
+]
+
+{ #category : #accessing }
+CelestialBody >> addBody: body named: bodyName [
+	bodies at: bodyName put: body
 ]
 
 { #category : #accessing }
@@ -34,6 +41,28 @@ CelestialBody >> angle: anObject [
 { #category : #accessing }
 CelestialBody >> b [
 	^b
+]
+
+{ #category : #accessing }
+CelestialBody >> drawOrbitsOn: aCanvas [ 
+    | orbitalTilt ellipse |
+    
+    bodies do: [:body |
+        orbitalTilt := body tilt * (Float pi / 180).
+        
+        "Create the ellipse geometry with the extent and rotation"
+        ellipse := BlEllipseGeometry new asElement
+            relocate: (self getCenter + (body offsetX @  body offsetY));
+            extent: (body a * 2) @ (body b * 2).
+        builder target: ellipse; rotateBy: tilt; apply.    
+        
+        "Set the appearance and add the ellipse to the canvas"
+        ellipse
+            background: Color transparent;
+            border: (BlBorder paint: Color orange width: 2).
+        
+        aCanvas addChild: ellipse.
+    ].
 ]
 
 { #category : #accessing }
@@ -54,14 +83,13 @@ CelestialBody >> getProjectedCoords: center [
     
     "Calculate angle and tilt in radians"
     angle := self angle * (Float pi / 180) .
-    tilt := self tilt * (Float pi / 180) .
     
     x := center x.
     y := center y.
     
     "Calculate the projected coordinates"
-    objX := x + (self a * (angle cos * tilt cos)) - (self b * (angle sin * tilt sin)) + self offsetX.
-    objY := y + (self a * (angle cos * tilt sin)) + (self b * (angle sin * tilt cos)) + self offsetY.
+    objX := x + (self a * (angle cos * self tilt cos)) - (self b * (angle sin * self tilt sin)) + self offsetX.
+    objY := y + (self a * (angle cos * self tilt sin)) + (self b * (angle sin * self tilt cos)) + self offsetY.
     
     "Return the result as a Point"
     ^ Point x: objX y: objY.
@@ -76,6 +104,11 @@ CelestialBody >> initialize [
 	tilt := 10.
 	offsetX := 0.
 	offsetX := 0.
+]
+
+{ #category : #accessing }
+CelestialBody >> move: pos [
+	bodyElement relocate: pos
 ]
 
 { #category : #accessing }
@@ -97,6 +130,30 @@ CelestialBody >> offsetY [
 CelestialBody >> offsetY: anY [
 	offsetY := anY
 	
+]
+
+{ #category : #accessing }
+CelestialBody >> root [
+	^ root
+]
+
+{ #category : #accessing }
+CelestialBody >> root: anObject [
+	root := anObject.
+	root addChild: bodyElement.
+	bodyElement relocate: self getCenter / 2.
+	
+	"Everything below here is just goofing around and trying to rotate anything"
+	
+	"test := BlElement new
+		  background: Color green;
+		  geometry: BlSquare new;
+		  margin: (BlInsets all: 1);
+		  size: 18 @ 18.	
+	
+	
+	builder target: test; rotateBy: 23; scaleBy: 5@5; apply.
+	root addChild: test."
 ]
 
 { #category : #accessing }
